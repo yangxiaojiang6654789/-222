@@ -1,0 +1,39 @@
+# ============================================================
+# 全天录音云端流水线配置
+# 说明：改完本文件后，把真实值填进去即可。
+# ============================================================
+
+webdav:
+  base_url: "https://dav.mypikpak.com"   # PikPak WebDAV 地址
+  username: "你的WebDAV用户名"            # PikPak 网页版生成
+  password: "你的WebDAV密码"              # 注意：不是登录密码，是 WebDAV 独立密码
+  folder: "watch-recordings"             # 手表上传到的目录名
+
+asr:
+  # provider: dashscope = 走文件转写接口（支持说话人分离 + 时间戳，推荐）
+  #           openai    = 走 OpenAI 兼容 /audio/transcriptions（纯文本，无说话人/时间戳）
+  provider: "dashscope"
+  base_url: "https://dashscope.aliyuncs.com"   # dashscope 用原生接口；openai 时填兼容模式地址
+  api_key: "sk-xxxxxxxxxxxxxxxx"               # 通义千问 API Key
+  model: "paraformer-v2"                       # 转写模型（paraformer-v2 / sensevoice-v1 / qwen-audio-3.0-asr-flash-filetrans）
+  language: "zh"                               # 转写语言
+  diarization: true                            # 说话人分离（仅 dashscope 生效）
+  speaker_count: 0                             # 说话人数量，0=自动估计（仅 dashscope 生效）
+  timestamps: true                             # 输出时间戳（仅 dashscope 生效）
+
+llm:
+  # 总结用大模型（OpenAI 兼容接口）
+  base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  api_key: "sk-xxxxxxxxxxxxxxxx"         # 可与 asr 同一个 key
+  model: "qwen-plus"                     # 总结模型（可换 qwen-max / qwen-turbo）
+
+summary:
+  timezone: "Asia/Shanghai"
+
+email:
+  smtp_host: "smtp.qq.com"
+  smtp_port: 465                          # 465=SSL, 587=STARTTLS
+  username: "你的QQ邮箱@qq.com"
+  password: "你的QQ邮箱SMTP授权码"         # 不是 QQ 密码，是「授权码」
+  to: "收件邮箱@qq.com"                   # 总结发往的邮箱
+  subject: "【每日录音总结】{date}"

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 · 全天录音控制台</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="login-body">
+    <form class="login-card" method="post" action="{{ url_for('login') }}">
+        <h1>全天录音控制台</h1>
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+        <input type="password" name="password" placeholder="请输入访问密码" autofocus required>
+        <button type="submit">登录</button>
+    </form>
+</body>
+</html>
